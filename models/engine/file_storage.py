@@ -13,20 +13,20 @@ class FileStorage:
         """initialize the Store"""
         self.__file_path = "file.json"
         self.__objects = {}
-    
+
     def all(self):
         """return all stored objs"""
         return self.__objects
-    
+
     def new(self, obj):
         """store obj"""
         self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj.to_dict()
-    
+
     def save(self):
         """store to a file"""
         with open(self.__file_path, "w") as f:
             json.dump(self.__objects, f)
-    
+
     def reload(self):
         """retrieve the data back to work"""
         try:
