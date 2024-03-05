@@ -20,17 +20,25 @@ class FileStorage:
 
     def new(self, obj):
         """store obj"""
-        self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj.to_dict()
+        self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
     def save(self):
         """store to a file"""
+        objs = self.__objects
+        for key in objs:
+            objs[key] = objs[key].to_dict()
         with open(self.__file_path, "w") as f:
-            json.dump(self.__objects, f)
+            json.dump(objs, f)
 
     def reload(self):
         """retrieve the data back to work"""
         try:
             with open(self.__file_path) as f:
-                self.__objects = json.load(f)
-        except:
+                from ..base_model import BaseModel
+                objs = json.load(f)
+                for key, value in objs.items():
+                    if value['__class__'] == "BaseModel":
+                        objs[key] = BaseModel(**value)
+                self.__objects = objs
+        except FileNotFoundError:
             pass
