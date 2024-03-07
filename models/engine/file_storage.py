@@ -77,7 +77,10 @@ class FileStorage:
                 { "email" : str,
                  "password" : str,
                  "first_name" : str,
-                 "last_name" : str}
+                 "last_name" : str},
+                "City" :
+                { "name" : str,
+                 "state_id" : str}
                 }
         return attributes
 
