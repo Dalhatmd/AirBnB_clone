@@ -9,6 +9,8 @@ import json
 class FileStorage:
     """ serializes/deserializes instances from/to a JSON file"""
 
+    # __exist_classes = ["BaseModel", "User"]
+
     def __init__(self):
         """initialize the Store"""
         self.__file_path = "file.json"
@@ -22,9 +24,9 @@ class FileStorage:
         """store obj"""
         self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
-    def save(self):
+    def save(self, store=None):
         """store to a file"""
-        objs = self.__objects
+        objs = (store.copy() if store else None) or self.__objects.copy()
         for key in objs:
             objs[key] = objs[key].to_dict()
         with open(self.__file_path, "w") as f:
@@ -35,10 +37,30 @@ class FileStorage:
         try:
             with open(self.__file_path) as f:
                 from ..base_model import BaseModel
+                from ..user import User
                 objs = json.load(f)
                 for key, value in objs.items():
-                    if value['__class__'] == "BaseModel":
-                        objs[key] = BaseModel(**value)
+                    # TODO: enhancement by using dicts=> dict["Model"]()
+                    match value['__class__']:
+                        case "BaseModel":
+                            objs[key] = BaseModel(**value)
+                        case "User":
+                            objs[key] = User(**value)
+                        case "Amenity":
+                            from ..amenity import Amenity
+                            objs[key] = Amenity(**value)
+                        case "City":
+                            from ..city import City
+                            objs[key] = City(**value)
+                        case "State":
+                            from ..state import State
+                            objs[key] = State(**value)
+                        case "Place":
+                            from ..place import Place
+                            objs[key] = Place(**value)
+                        case "Review":
+                            from ..review import Review
+                            objs[key] = Review(**value)
                 self.__objects = objs
         except FileNotFoundError:
             pass
