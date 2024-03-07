@@ -88,7 +88,10 @@ class FileStorage:
                 { "place_id" : str,
                  "user_id" : str,
                  "text" : str
-                 }
+                 },
+                "Amenity" :
+                { "name" : str
+                }
                 }
         return attributes
 
