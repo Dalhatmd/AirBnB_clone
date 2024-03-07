@@ -83,7 +83,12 @@ class FileStorage:
                  "state_id" : str},
                 "State" :
                 { "name" : str
-                }
+                },
+                "Review" :
+                { "place_id" : str,
+                 "user_id" : str,
+                 "text" : str
+                 }
                 }
         return attributes
 
