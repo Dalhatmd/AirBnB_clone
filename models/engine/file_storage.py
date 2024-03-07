@@ -80,7 +80,10 @@ class FileStorage:
                  "last_name" : str},
                 "City" :
                 { "name" : str,
-                 "state_id" : str}
+                 "state_id" : str},
+                "State" :
+                { "name" : str
+                }
                 }
         return attributes
 
