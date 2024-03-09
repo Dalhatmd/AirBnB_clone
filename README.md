@@ -78,7 +78,3 @@ The `tests` directory contains unit tests for the various model classes and the 
 ## Dependencies
 
 - Python 3.x
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).

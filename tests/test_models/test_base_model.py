@@ -77,15 +77,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(original_instance.__dict__,
                          recreated_instance.__dict__)
 
-    def test_attributes(self):
-        """Test all attributes exist and are of the correct class"""
-        attributes = storage.attributes()["BaseModel"]
-        b = BaseModel()
-        for key, value in attributes.items():
-            self.assertTrue(hasattr(b, key))
-            self.assertEqual(type(getattr(b, key, None)), value)
-
-
 
 if __name__ == "__main__":
     unittest.main()

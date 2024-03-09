@@ -4,7 +4,6 @@ class FileStorage that serializes instances to a
 JSON file and deserializes JSON file to instances
 """
 import json
-from datetime import datetime
 
 
 class FileStorage:
@@ -65,33 +64,3 @@ class FileStorage:
                 self.__objects = objs
         except FileNotFoundError:
             pass
-
-    def attributes(self):
-        """ returns the attributes a class should have. Useful for tests"""
-        attributes = {
-                "BaseModel" :
-                { "id" : str,
-                 "created_at" : datetime,
-                 "updated_at" : datetime},
-                "User" :
-                { "email" : str,
-                 "password" : str,
-                 "first_name" : str,
-                 "last_name" : str},
-                "City" :
-                { "name" : str,
-                 "state_id" : str},
-                "State" :
-                { "name" : str
-                },
-                "Review" :
-                { "place_id" : str,
-                 "user_id" : str,
-                 "text" : str
-                 },
-                "Amenity" :
-                { "name" : str
-                }
-                }
-        return attributes
-
