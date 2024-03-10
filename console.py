@@ -14,19 +14,20 @@ from models import storage
 
 
 def parse(arg):
-    curly = re.search(r"\{(.*?)\}", arg)
+    """Parsing the commands so as to catch what's wanted"""
     bracks = re.search(r"\[(.*?)\]", arg)
+    curly = re.search(r"\{(.*?)\}", arg)
     if curly is None:
         if bracks is None:
             return [i.strip(",") for i in split(arg)]
         else:
-            lexer = split(arg[:bracks.span()[0]])
-            retl = [i.strip(",") for i in lexer]
+            lxr = split(arg[:bracks.span()[0]])
+            retl = [i.strip(",") for i in lxr]
             retl.append(bracks.group())
             return retl
     else:
-        lexer = split(arg[:curly.span()[0]])
-        retl = [i.strip(",") for i in lexer]
+        lxr = split(arg[:curly.span()[0]])
+        retl = [i.strip(",") for i in lxr]
         retl.append(curly.group())
         return retl
 
@@ -49,13 +50,22 @@ class HBNBCommand(cmd.Cmd):
         "Review"
     }
 
+    def do_quit(self, arg):
+        """Quit command to exit the program."""
+        return True
+
+    def do_EOF(self, arg):
+        """EOF signal to exit the program."""
+        print("")
+        return True
+
     def emptyline(self):
         """Do nothing upon receiving an empty line."""
         pass
 
     def default(self, arg):
         """Default behavior for cmd module when input is invalid"""
-        argdict = {
+        argdct = {
             "all": self.do_all,
             "show": self.do_show,
             "destroy": self.do_destroy,
@@ -68,20 +78,11 @@ class HBNBCommand(cmd.Cmd):
             match = re.search(r"\((.*?)\)", argl[1])
             if match is not None:
                 command = [argl[1][:match.span()[0]], match.group()[1:-1]]
-                if command[0] in argdict.keys():
+                if command[0] in argdct.keys():
                     call = "{} {}".format(argl[0], command[1])
-                    return argdict[command[0]](call)
+                    return argdct[command[0]](call)
         print("*** Unknown syntax: {}".format(arg))
         return False
-
-    def do_quit(self, arg):
-        """Quit command to exit the program."""
-        return True
-
-    def do_EOF(self, arg):
-        """EOF signal to exit the program."""
-        print("")
-        return True
 
     def do_create(self, arg):
         """Usage: create <class>
@@ -150,11 +151,13 @@ class HBNBCommand(cmd.Cmd):
         """Usage: count <class> or <class>.count()
         Retrieve the number of instances of a given class."""
         argl = parse(arg)
-        count = 0
-        for obj in storage.all().values():
-            if argl[0] == obj.__class__.__name__:
-                count += 1
-        print(count)
+        cnt = sum(
+            1 for _ in filter(
+                lambda obj: argl[0] == obj.__class__.__name__,
+                storage.all().values()
+                )
+            )
+        print(cnt)
 
     def do_update(self, arg):
         """Usage: update <class> <id> <attribute_name> <attribute_value> or
