@@ -3,24 +3,30 @@
 class FileStorage that serializes instances to a
 JSON file and deserializes JSON file to instances
 """
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 import json
 
 
 class FileStorage:
     """ serializes/deserializes instances from/to a JSON file"""
 
-    def __init__(self):
-        """initialize the Store"""
-        self.__file_path = "file.json"
-        self.__objects = {}
+    __file_path = "file.json"
+    __objects = {}
 
     def all(self):
-        """return all stored objs"""
-        return self.__objects
+        """Return the dictionary __objects."""
+        return FileStorage.__objects
 
     def new(self, obj):
-        """store obj"""
-        self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
+        """Set in __objects obj with key <obj_class_name>.id"""
+        ocname = obj.__class__.__name__
+        FileStorage.__objects["{}.{}".format(ocname, obj.id)] = obj
 
     def save(self):
         """Serialize __objects to the JSON file __file_path."""
@@ -30,34 +36,13 @@ class FileStorage:
             json.dump(objdict, f)
 
     def reload(self):
-        """retrieve the data back to work"""
+        """Deserialize the JSON file __file_path to __objects, if it exists."""
         try:
-            with open(self.__file_path) as f:
-                from ..base_model import BaseModel
-                from ..user import User
-                objs = json.load(f)
-                for key, value in objs.items():
-                    # TODO: enhancement by using dicts=> dict["Model"]()
-                    match value['__class__']:
-                        case "BaseModel":
-                            objs[key] = BaseModel(**value)
-                        case "User":
-                            objs[key] = User(**value)
-                        case "Amenity":
-                            from ..amenity import Amenity
-                            objs[key] = Amenity(**value)
-                        case "City":
-                            from ..city import City
-                            objs[key] = City(**value)
-                        case "State":
-                            from ..state import State
-                            objs[key] = State(**value)
-                        case "Place":
-                            from ..place import Place
-                            objs[key] = Place(**value)
-                        case "Review":
-                            from ..review import Review
-                            objs[key] = Review(**value)
-                self.__objects = objs
+            with open(FileStorage.__file_path) as f:
+                objdict = json.load(f)
+                for o in objdict.values():
+                    cls_name = o["__class__"]
+                    del o["__class__"]
+                    self.new(eval(cls_name)(**o))
         except FileNotFoundError:
-            pass
+            return
