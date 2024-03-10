@@ -1,5 +1,11 @@
 #!/usr/bin/python3
-'''Module for Base unit tests.'''
+"""Defines unittests for models/base_model.py.
+
+Unittest classes:
+    TestBaseModel_instantiation
+    TestBaseModel_save
+    TestBaseModel_to_dict
+"""
 import os
 import models
 import unittest
@@ -171,6 +177,15 @@ class TestBaseModel_to_dict(unittest.TestCase):
             'updated_at': dt.isoformat()
         }
         self.assertDictEqual(bm.to_dict(), tdict)
+
+    def test_contrast_to_dict_dunder_dict(self):
+        bm = BaseModel()
+        self.assertNotEqual(bm.to_dict(), bm.__dict__)
+
+    def test_to_dict_with_arg(self):
+        bm = BaseModel()
+        with self.assertRaises(TypeError):
+            bm.to_dict(None)
 
 
 if __name__ == "__main__":

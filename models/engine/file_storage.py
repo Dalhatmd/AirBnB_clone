@@ -22,13 +22,12 @@ class FileStorage:
         """store obj"""
         self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
-    def save(self, store=None):
-        """store to a file"""
-        objs = (store.copy() if store else None) or self.__objects.copy()
-        for key in objs:
-            objs[key] = objs[key].to_dict()
-        with open(self.__file_path, "w") as f:
-            json.dump(objs, f)
+    def save(self):
+        """Serialize __objects to the JSON file __file_path."""
+        odict = FileStorage.__objects
+        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
+        with open(FileStorage.__file_path, "w") as f:
+            json.dump(objdict, f)
 
     def reload(self):
         """retrieve the data back to work"""
