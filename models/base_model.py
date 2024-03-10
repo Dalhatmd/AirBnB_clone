@@ -16,17 +16,17 @@ class BaseModel:
         self.updated_at = datetime.today()
         if len(kwargs) != 0:
             for k, v in kwargs.items():
-                if k != '__class__':
-                    if k == "created_at" or k == "updated_at":
-                        self.__dict__[k] = datetime.strptime(v, tform)
-                    else:
-                        self.__dict__[k] = v
+                if k == "created_at" or k == "updated_at":
+                    self.__dict__[k] = datetime.strptime(v, tform)
+                else:
+                    self.__dict__[k] = v
         else:
             storage.new(self)
 
     def __str__(self):
         """ Prints a string representation of the class """
-        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+        clname = self.__class__.__name__
+        return "[{}] ({}) {}".format(clname, self.id, self.__dict__)
 
     def save(self):
         """ Updates the updated_at value """
