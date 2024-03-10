@@ -9,8 +9,6 @@ import json
 class FileStorage:
     """ serializes/deserializes instances from/to a JSON file"""
 
-    # __exist_classes = ["BaseModel", "User"]
-
     def __init__(self):
         """initialize the Store"""
         self.__file_path = "file.json"
