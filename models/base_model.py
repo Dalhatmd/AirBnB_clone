@@ -10,20 +10,18 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """ initialiser for BaseModel """
-        if kwargs:
-            for key, value in kwargs.items():
-                if key == "__class__":
-                    continue
-                elif key == 'created_at':
-                    self.created_at = datetime.fromisoformat(value)
-                elif key == 'updated_at':
-                    self.updated_at = datetime.fromisoformat(value)
-                else:
-                    setattr(self, key, value)
+        tform = "%Y-%m-%dT%H:%M:%S.%f"
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.today()
+        self.updated_at = datetime.today()
+        if len(kwargs) != 0:
+            for k, v in kwargs.items():
+                if k != '__class__':
+                    if k == "created_at" or k == "updated_at":
+                        self.__dict__[k] = datetime.strptime(v, tform)
+                    else:
+                        self.__dict__[k] = v
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = self.created_at
             storage.new(self)
 
     def __str__(self):
@@ -32,16 +30,13 @@ class BaseModel:
 
     def save(self):
         """ Updates the updated_at value """
-        self.updated_at = datetime.now()
+        self.updated_at = datetime.today()
         storage.save()
 
     def to_dict(self):
         """ Returns a dictionary representation of the class """
-        class_dict = self.__dict__.copy()
-        class_dict["__class__"] = self.__class__.__name__
-        if hasattr(self, "created_at"):
-            class_dict["created_at"] = self.created_at.isoformat()
-        if hasattr(self, "updated_at"):
-            class_dict["updated_at"] = self.updated_at.isoformat()
-
-        return class_dict
+        dict_repr = self.__dict__.copy()
+        dict_repr["created_at"] = self.created_at.isoformat()
+        dict_repr["updated_at"] = self.updated_at.isoformat()
+        dict_repr["__class__"] = self.__class__.__name__
+        return dict_repr

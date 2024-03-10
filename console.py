@@ -195,39 +195,39 @@ class HBNBCommand(cmd.Cmd):
         print("Syntax: update <class name> <id>\
               <attribute name> '<attribute value>'")
 
-    def do_User(self, arg):
-        command = arg.removeprefix('.').replace('(', " ").replace(')', " ")
-        args = shlex.split(command)
-        if arg.startswith('.all()'):
-            all_insts = storage.all()
-            inst = filter(
-                lambda i:  i.split('.')[0] == "User",
-                all_insts.keys()
-            )
-            res = [str(all_insts[i]) for i in inst]
-            print(str(res).replace('"', ""))
-        elif arg.startswith(".count()"):
-            all_insts = storage.all()
-            ctr = sum(1 for _ in filter(
-                lambda i:  i.split('.')[0] == "User",
-                all_insts.keys()
-            ))
-            print(ctr)
-        elif command.startswith("show"):
-            pass
-        elif command.startswith("destroy"):
-            all_insts = storage.all()
-            inst = list(filter(
-                lambda i: i.split('.')[1] == args[1]
-                and i.split('.')[0] == "User",
-                all_insts.keys()
-            ))
-            print(inst[0].to_dict(), len(inst))
-            if not len(inst):
-                print("** no instance found **")
-            else:
-                del all_insts[inst[0]]
-                storage.save(store=all_insts)
+    # def do_User(self, arg):
+    #     command = arg.removeprefix('.').replace('(', " ").replace(')', " ")
+    #     args = shlex.split(command)
+    #     if arg.startswith('.all()'):
+    #         all_insts = storage.all()
+    #         inst = filter(
+    #             lambda i:  i.split('.')[0] == "User",
+    #             all_insts.keys()
+    #         )
+    #         res = [str(all_insts[i]) for i in inst]
+    #         print(str(res).replace('"', ""))
+    #     elif arg.startswith(".count()"):
+    #         all_insts = storage.all()
+    #         ctr = sum(1 for _ in filter(
+    #             lambda i:  i.split('.')[0] == "User",
+    #             all_insts.keys()
+    #         ))
+    #         print(ctr)
+    #     elif command.startswith("show"):
+    #         pass
+    #     elif command.startswith("destroy"):
+    #         all_insts = storage.all()
+    #         inst = list(filter(
+    #             lambda i: i.split('.')[1] == args[1]
+    #             and i.split('.')[0] == "User",
+    #             all_insts.keys()
+    #         ))
+    #         print(inst[0].to_dict(), len(inst))
+    #         if not len(inst):
+    #             print("** no instance found **")
+    #         else:
+    #             del all_insts[inst[0]]
+    #             storage.save(store=all_insts)
 
 
 if __name__ == "__main__":
