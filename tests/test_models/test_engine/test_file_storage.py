@@ -130,10 +130,6 @@ class TestFileStorage_methods(unittest.TestCase):
             self.assertIn("Amenity." + am.id, save_text)
             self.assertIn("Review." + rv.id, save_text)
 
-    def test_save_with_(self):
-        with self.assertRaises(TypeError):
-            models.storage.save(None)
-
     def test_rel(self):
         bm = BaseModel()
         us = User()

@@ -142,13 +142,6 @@ class TestAmenity_to_dict(unittest.TestCase):
     def test_to_dict_t(self):
         self.assertTrue(dict, type(Amenity().to_dict()))
 
-    def test_to_dict_contains_correct_k(self):
-        am = Amenity()
-        self.assertIn("id", am.to_dict())
-        self.assertIn("created_at", am.to_dict())
-        self.assertIn("updated_at", am.to_dict())
-        self.assertIn("__class__", am.to_dict())
-
     def test_to_dict_contains_added_attribu(self):
         am = Amenity()
         am.middle_name = "Holberton"

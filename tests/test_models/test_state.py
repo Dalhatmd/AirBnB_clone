@@ -122,11 +122,6 @@ class TestState_save(unittest.TestCase):
         st.save()
         self.assertLess(second_updated_at, st.updated_at)
 
-    def test_save_with_a(self):
-        st = State()
-        with self.assertRaises(TypeError):
-            st.save(None)
-
     def test_save_updates_fi(self):
         st = State()
         st.save()

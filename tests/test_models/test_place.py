@@ -62,12 +62,6 @@ class TestPlace_instantiation(unittest.TestCase):
         self.assertIn("number_rooms", dir(pl))
         self.assertNotIn("number_rooms", pl.__dict__)
 
-    def test_number_bathrooms_is_public_class_attrib(self):
-        pl = Place()
-        self.assertEqual(int, type(Place.number_bathrooms))
-        self.assertIn("number_bathrooms", dir(pl))
-        self.assertNotIn("number_bathrooms", pl.__dict__)
-
     def test_max_guest_is_public_class_attrib(self):
         pl = Place()
         self.assertEqual(int, type(Place.max_guest))

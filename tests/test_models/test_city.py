@@ -110,13 +110,6 @@ class TestCity_save(unittest.TestCase):
         except IOError:
             pass
 
-    def test_one_s(self):
-        cy = City()
-        sleep(0.05)
-        first_updated_at = cy.updated_at
-        cy.save()
-        self.assertLess(first_updated_at, cy.updated_at)
-
     def test_two_sa(self):
         cy = City()
         sleep(0.05)

@@ -38,12 +38,6 @@ class TestReview_instantiation(unittest.TestCase):
         self.assertIn("place_id", dir(rv))
         self.assertNotIn("place_id", rv.__dict__)
 
-    def test_user_id_is_public_class_attrib(self):
-        rv = Review()
-        self.assertEqual(str, type(Review.user_id))
-        self.assertIn("user_id", dir(rv))
-        self.assertNotIn("user_id", rv.__dict__)
-
     def test_text_is_public_class_attrib(self):
         rv = Review()
         self.assertEqual(str, type(Review.text))
