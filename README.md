@@ -75,6 +75,10 @@ The project includes a `FileStorage` class that serializes instances to a JSON f
 
 The `tests` directory contains unit tests for the various model classes and the file storage functionality.
 
+## Web static
+
+The 'web_static' directory contains web pages for the project
+
 ## Dependencies
 
 - Python 3.x
